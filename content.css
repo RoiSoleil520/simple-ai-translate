@@ -107,59 +107,55 @@
   color: #333;
 }
 
-.translate-result {
+/* 结果区域包装器 */
+.translate-result-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
   padding: 12px;
+}
+
+.translate-result {
+  flex: 1;
   color: #333;
   font-size: 14px;
   line-height: 1.6;
   max-height: 200px;
   overflow-y: auto;
+  margin: 0;
+  padding: 0;
 }
 
-/* 操作按钮区域 */
-.translate-actions {
-  display: flex;
-  gap: 8px;
-  padding: 8px 12px;
-  border-top: 1px solid #f0f0f0;
-  background: #fafafa;
-  border-radius: 0 0 8px 8px;
-}
-
+/* 朗读按钮（图标） */
 .translate-speak-btn {
-  flex: 1;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 8px 12px;
-  background: white;
+  background: transparent;
   border: 1px solid #e0e0e0;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 13px;
-  color: #666;
+  padding: 0;
   transition: all 0.2s;
+  margin-top: 2px;
 }
 
 .translate-speak-btn:hover {
   border-color: #667eea;
-  color: #667eea;
   background: #f5f7ff;
 }
 
 .translate-speak-btn.speaking {
   border-color: #667eea;
   background: #667eea;
-  color: white;
 }
 
 .translate-speak-btn .speak-icon {
-  font-size: 14px;
-}
-
-.translate-speak-btn .speak-text {
-  font-size: 13px;
+  font-size: 16px;
+  line-height: 1;
 }
 
 /* 滚动条样式 */

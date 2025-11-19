@@ -69,11 +69,10 @@ function createTranslationBubble() {
       <span class="translate-text"></span>
       <button class="translate-close">×</button>
     </div>
-    <div class="translate-result">正在翻译...</div>
-    <div class="translate-actions">
+    <div class="translate-result-wrapper">
+      <div class="translate-result">正在翻译...</div>
       <button class="translate-speak-btn" title="朗读译文">
         <span class="speak-icon">🔊</span>
-        <span class="speak-text">朗读</span>
       </button>
     </div>
   `;
