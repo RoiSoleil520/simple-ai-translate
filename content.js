@@ -3,6 +3,7 @@ let translateButton = null;
 let translationBubble = null;
 let selectedText = '';
 let selectedLang = 'zh'; // 默认翻译成中文
+let currentTranslation = ''; // 当前翻译结果
 
 // 创建翻译按钮（带语言选择）
 function createTranslateButton() {
@@ -69,6 +70,12 @@ function createTranslationBubble() {
       <button class="translate-close">×</button>
     </div>
     <div class="translate-result">正在翻译...</div>
+    <div class="translate-actions">
+      <button class="translate-speak-btn" title="朗读译文">
+        <span class="speak-icon">🔊</span>
+        <span class="speak-text">朗读</span>
+      </button>
+    </div>
   `;
 
   document.body.appendChild(bubble);
@@ -76,6 +83,13 @@ function createTranslationBubble() {
   // 关闭按钮
   bubble.querySelector('.translate-close').addEventListener('click', () => {
     hideBubble();
+  });
+
+  // 朗读按钮
+  const speakBtn = bubble.querySelector('.translate-speak-btn');
+  speakBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    speakTranslation();
   });
 
   translationBubble = bubble;
@@ -160,8 +174,10 @@ async function translateText(text, targetLang = 'zh') {
       const resultDiv = bubble.querySelector('.translate-result');
       
       if (result.success) {
+        currentTranslation = result.translation;
         resultDiv.textContent = result.translation;
       } else {
+        currentTranslation = '';
         resultDiv.textContent = '翻译失败: ' + (result.error || '未知错误');
       }
     }
@@ -171,17 +187,84 @@ async function translateText(text, targetLang = 'zh') {
     if (bubble) {
       const resultDiv = bubble.querySelector('.translate-result');
       resultDiv.textContent = '翻译失败: ' + error.message;
+      currentTranslation = '';
     }
   }
+}
+
+// 朗读翻译结果
+function speakTranslation() {
+  if (!currentTranslation || currentTranslation === '正在翻译...' || currentTranslation.startsWith('翻译失败')) {
+    return;
+  }
+
+  // 停止当前朗读
+  speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(currentTranslation);
+  utterance.lang = getLangCode(selectedLang);
+  utterance.rate = 0.9;
+  utterance.pitch = 1;
+  utterance.volume = 1;
+
+  // 朗读开始
+  utterance.onstart = () => {
+    const speakBtn = document.querySelector('.translate-speak-btn');
+    if (speakBtn) {
+      speakBtn.classList.add('speaking');
+      speakBtn.querySelector('.speak-icon').textContent = '⏸️';
+    }
+  };
+
+  // 朗读结束
+  utterance.onend = () => {
+    const speakBtn = document.querySelector('.translate-speak-btn');
+    if (speakBtn) {
+      speakBtn.classList.remove('speaking');
+      speakBtn.querySelector('.speak-icon').textContent = '🔊';
+    }
+  };
+
+  // 朗读错误
+  utterance.onerror = (error) => {
+    console.error('Speech synthesis error:', error);
+    const speakBtn = document.querySelector('.translate-speak-btn');
+    if (speakBtn) {
+      speakBtn.classList.remove('speaking');
+      speakBtn.querySelector('.speak-icon').textContent = '🔊';
+    }
+  };
+
+  speechSynthesis.speak(utterance);
+}
+
+// 获取语言代码（用于语音朗读）
+function getLangCode(lang) {
+  const langMap = {
+    'zh': 'zh-CN',
+    'en': 'en-US',
+    'ja': 'ja-JP',
+    'ko': 'ko-KR',
+    'fr': 'fr-FR',
+    'de': 'de-DE',
+    'es': 'es-ES',
+    'ru': 'ru-RU'
+  };
+  return langMap[lang] || 'en-US';
 }
 
 // 隐藏所有元素
 function hideBubble() {
   const button = document.getElementById('simple-translate-btn');
   const bubble = document.getElementById('simple-translate-bubble');
+  
+  // 停止朗读
+  speechSynthesis.cancel();
+  
   if (button) button.style.display = 'none';
   if (bubble) bubble.style.display = 'none';
   selectedText = '';
+  currentTranslation = '';
 }
 
 // 监听文本选择

@@ -116,6 +116,52 @@
   overflow-y: auto;
 }
 
+/* 操作按钮区域 */
+.translate-actions {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  border-top: 1px solid #f0f0f0;
+  background: #fafafa;
+  border-radius: 0 0 8px 8px;
+}
+
+.translate-speak-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.translate-speak-btn:hover {
+  border-color: #667eea;
+  color: #667eea;
+  background: #f5f7ff;
+}
+
+.translate-speak-btn.speaking {
+  border-color: #667eea;
+  background: #667eea;
+  color: white;
+}
+
+.translate-speak-btn .speak-icon {
+  font-size: 14px;
+}
+
+.translate-speak-btn .speak-text {
+  font-size: 13px;
+}
+
 /* 滚动条样式 */
 .translate-result::-webkit-scrollbar {
   width: 6px;
