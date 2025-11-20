@@ -75,6 +75,7 @@
   background: #f5f5f5;
   border-radius: 8px 8px 0 0;
   border-bottom: 1px solid #e0e0e0;
+  gap: 6px;
 }
 
 .translate-text {
@@ -87,24 +88,30 @@
   max-width: 350px;
 }
 
-.translate-close {
+/* 通用图标按钮 */
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
-  border: none;
-  color: #999;
-  font-size: 20px;
-  width: 24px;
-  height: 24px;
-  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
   cursor: pointer;
   padding: 0;
-  line-height: 1;
-  margin-left: 8px;
-  flex-shrink: 0;
+  transition: all 0.2s;
+  width: 28px;
+  height: 28px;
 }
 
-.translate-close:hover {
-  background: #e0e0e0;
-  color: #333;
+.icon-btn:hover {
+  border-color: #667eea;
+  background: #f5f7ff;
+}
+
+.icon-btn .copy-icon,
+.icon-btn .speak-icon {
+  font-size: 16px;
+  line-height: 1;
 }
 
 /* 结果区域包装器 */
@@ -126,36 +133,29 @@
   padding: 0;
 }
 
-/* 朗读按钮（图标） */
-.translate-speak-btn {
+/* 操作按钮组 */
+.translate-action-buttons {
   flex-shrink: 0;
-  width: 28px;
-  height: 28px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  cursor: pointer;
-  padding: 0;
-  transition: all 0.2s;
+  gap: 6px;
   margin-top: 2px;
 }
 
-.translate-speak-btn:hover {
-  border-color: #667eea;
-  background: #f5f7ff;
+.translate-copy-source-btn.copied,
+.translate-copy-result-btn.copied {
+  border-color: #4caf50;
+  background: #4caf50;
+}
+
+/* 朗读按钮 */
+.translate-speak-btn {
+  width: 28px;
+  height: 28px;
 }
 
 .translate-speak-btn.speaking {
   border-color: #667eea;
   background: #667eea;
-}
-
-.translate-speak-btn .speak-icon {
-  font-size: 16px;
-  line-height: 1;
 }
 
 /* 滚动条样式 */
